@@ -1,32 +1,22 @@
-n=int(input("how many charcters to preview: "))
-file= open("class-notes.txt", "r")
-print(file.read(n))
-print()
+import os 
+print("=== Science Notes ===")
+with open ("science-notes.txt") as f:
+    for line in f :
+        print(line.strip())
 
-file = open("class-notes.txt", "r")
-lines =  file.readlines()
-file.close()
+print("\n=== Word count ===")
+with open ("maths-notes.txt") as f :
+    for line in f :
+        print(len(line.split()), "words ->" , line.strip())
 
-print("total lines:", len(lines))
-for i in range(len(lines)):
-    print( i+1 , "->", lines[i].strip())
-print()
+print("\n merging notes ===")
+with open ("all-notes.txt", "w") as out :
+    for file in["science-notes.txt", "maths-notes.txt"] :
+        with open (file) as f :
+            out.write(f"--- {file} ---\n{f.read()}\n" )
 
-word = input("skip lines starting with: ")
-file = open("class-notes.txt","r")
-for line in file:
-    if line.startswith(word):
-        print("skip ->", line.strip())
-    else:
-        print("keep ->", line.strip())
-file.close()
-print()
+print("saved to all-notes.txt")
 
-file= open("class-notes.txt", "r")
-lines =  file.readlines()
-file.close()
-out = open("odd-lines.txt", "w")
-for i in range(0, len(lines),2):
-    out.write(lines[1])
-out.close()
-print("odd lines saved th odd-lines.txt")
+if os.path.exists("all-notes.txt") :
+    os.remove("all-notes.txt")
+    print("all-notes.txt deleted. ")
